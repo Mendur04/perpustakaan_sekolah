@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Admin - Perpustakaan</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .login-container { max-width: 400px; margin: 100px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        .login-container input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .login-btn { width: 100%; padding: 10px; background-color: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 style="text-align: center;">Admin Login</h2>
+        <div id="error-msg" style="color: red; text-align: center; display: none;">Username atau Password salah!</div>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username (admin)" required>
+            <input type="password" id="password" placeholder="Password (admin)" required>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            // Logika simulasi login sederhana
+            if(user === "admin" && pass === "admin") {
+                localStorage.setItem('isLoggedIn', 'true'); // Simpan status login di browser
+                window.location.href = "dashboard.html";
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        };
+    </script>
+</body>
+</html>

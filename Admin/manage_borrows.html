@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manajemen Peminjaman - Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .status-dipinjam { color: #e67e22; font-weight: bold; }
+        .status-dikembalikan { color: #2ecc71; font-weight: bold; }
+        .btn-return { background-color: #2ecc71; color: white; padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Beranda Admin</a></li>
+                    <li><a href="manage_books.html">Manajemen Buku</a></li>
+                    <li><a href="manage_borrows.html" class="active">Peminjaman</a></li>
+                    <li><a href="manage_members.html">Manajemen Anggota</a></li>
+                    <li><a href="login.html">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Manajemen Peminjaman & Pengembalian</h2>
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID Pinjam</th>
+                        <th>ID Anggota</th>
+                        <th>Judul Buku</th>
+                        <th>Tgl Pinjam</th>
+                        <th>Jatuh Tempo</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="borrow-table-body">
+                    <!-- Diisi oleh JS -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // Data Statis Peminjaman[cite: 14]
+        let borrows = [
+            { id: 101, member: "NIS001", buku: "Fisika Modern", pinjam: "2026-05-01", kembali: "2026-05-08", status: "Dipinjam" },
+            { id: 102, member: "NIS005", buku: "Laskar Pelangi", pinjam: "2026-05-03", kembali: "2026-05-10", status: "Dikembalikan" }
+        ];
+
+        function renderBorrows() {
+            const tableBody = document.getElementById('borrow-table-body');
+            tableBody.innerHTML = borrows.map(data => `
+                <tr>
+                    <td>${data.id}</td>
+                    <td>${data.member}</td>
+                    <td>${data.buku}</td>
+                    <td>${data.pinjam}</td>
+                    <td>${data.kembali}</td>
+                    <td><span class="${data.status === 'Dipinjam' ? 'status-dipinjam' : 'status-dikembalikan'}">${data.status}</span></td>
+                    <td>
+                        ${data.status === 'Dipinjam' ? `<button class="btn-return" onclick="processReturn(${data.id})">Kembalikan</button>` : '-'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function processReturn(id) {
+            if(confirm('Tandai buku sebagai dikembalikan?')) {
+                const item = borrows.find(b => b.id === id);
+                if(item) item.status = "Dikembalikan";
+                renderBorrows();
+            }
+        }
+        renderBorrows();
+    </script>
+</body>
+</html>

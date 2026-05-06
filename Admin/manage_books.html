@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manajemen Buku - Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .admin-table-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .admin-table { width: 100%; border-collapse: collapse; }
+        .admin-table th, .admin-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .btn-add { background-color: #2ecc71; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; display: inline-block; margin-bottom: 20px; }
+        .btn-delete { color: #e74c3c; cursor: pointer; border: none; background: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Beranda Admin</a></li>
+                    <li><a href="manage_books.html" class="active">Manajemen Buku</a></li>
+                    <li><a href="manage_borrows.html">Peminjaman</a></li>
+                    <li><a href="login.html">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Daftar Koleksi Buku</h2>
+        <a href="#" class="btn-add" onclick="alert('Fungsi Tambah Buku Statis')"><i class="fas fa-plus"></i> Tambah Buku Baru</a>
+        
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Judul Buku</th>
+                        <th>Pengarang</th>
+                        <th>Kategori</th>
+                        <th>Stok</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="book-table-body">
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // Data Dummy (Pengganti Database Tabel 'buku')
+        let books = [
+            { id: 1, judul: "Laskar Pelangi", pengarang: "Andrea Hirata", kategori: "Novel", stok: 5 },
+            { id: 2, judul: "Algoritma Pemrograman", pengarang: "Budi Raharjo", kategori: "Pendidikan", stok: 3 },
+            { id: 3, judul: "Filosofi Teras", pengarang: "Henry Manampiring", kategori: "Self Improvement", stok: 7 }
+        ];
+
+        function renderBooks() {
+            const tableBody = document.getElementById('book-table-body');
+            tableBody.innerHTML = books.map(book => `
+                <tr>
+                    <td>${book.id}</td>
+                    <td>${book.judul}</td>
+                    <td>${book.pengarang}</td>
+                    <td>${book.kategori}</td>
+                    <td>${book.stok}</td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteBook(${book.id})"><i class="fas fa-trash"></i> Hapus</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteBook(id) {
+            if(confirm('Yakin ingin menghapus buku ini?')) {
+                books = books.filter(b => b.id !== id);
+                renderBooks(); // Refresh tabel setelah hapus
+            }
+        }
+
+        // Jalankan saat halaman dibuka
+        renderBooks();
+    </script>
+</body>
+</html>

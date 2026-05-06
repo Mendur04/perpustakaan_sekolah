@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cari Buku - Perpustakaan Sekolah</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="uploads/perpustakaan.png" alt="Logo Perpustakaan">
+                <h1>Perpustakaan Sekolah</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="daftar_buku.html"><i class="fas fa-book"></i> Daftar Buku</a></li>
+                    <li><a href="pinjam_buku.html"><i class="fas fa-hand-holding"></i> Pinjam Buku</a></li>
+                    <li><a href="kembalikan_buku.html"><i class="fas fa-undo"></i> Kembalikan Buku</a></li>
+                    <li><a href="cari_buku.html" class="active"><i class="fas fa-search"></i> Cari Buku</a></li>
+                    <li><a href="Admin/login.php"><i class="fas fa-user-shield"></i> Admin</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="search">
+            <h2>Cari Buku</h2>
+            
+            <div class="search-container">
+                <form id="search-form"> <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Masukkan judul, pengarang, atau nomor rak...">
+                        <button id="search-btn"><i class="fas fa-search"></i> Cari</button>
+                    </div>
+                    
+                    <div class="search-advanced">
+                        <h4><i class="fas fa-cog"></i> Pencarian Lanjutan</h4>
+                        <div class="advanced-filters">
+                            <div class="form-group">
+                                <label for="search-category">Kategori:</label>
+                                <select id="search-category">
+                                    <option value="">Semua Kategori</option>
+                                    <option value="pelajaran">Pelajaran</option>
+                                    <option value="novel">Novel</option>
+                                    <option value="referensi">Referensi</option>
+                                    <option value="ilmiah">Ilmiah</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="search-status">Status:</label>
+                                <select id="search-status">
+                                    <option value="">Semua Status</option>
+                                    <option value="available">Tersedia</option>
+                                    <option value="borrowed">Dipinjam</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form> </div>
+            
+            <div class="search-results">
+                <p>Gunakan kotak pencarian di atas untuk mencari buku.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Perpustakaan Sekolah. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/cari_buku.js"></script>
+</body>
+</html>

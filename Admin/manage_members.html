@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manajemen Anggota - Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Beranda Admin</a></li>
+                    <li><a href="manage_books.html">Manajemen Buku</a></li>
+                    <li><a href="manage_borrows.html">Peminjaman</a></li>
+                    <li><a href="manage_members.html" class="active">Manajemen Anggota</a></li>
+                    <li><a href="login.html">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Daftar Anggota Perpustakaan</h2>
+        <button class="primary-button" onclick="addMember()" style="margin-bottom: 20px;">+ Tambah Anggota</button>
+        
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID Anggota (NIS)</th>
+                        <th>Nama Lengkap</th>
+                        <th>Jurusan</th>
+                        <th>Kelas</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="member-table-body">
+                    <!-- Diisi oleh JS -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // Data Statis Anggota[cite: 15]
+        let members = [
+            { id: "NIS001", nama: "Nabiel Mendur", jurusan: "IPA", kelas: "XII-A" },
+            { id: "NIS002", nama: "Farhan", jurusan: "IPS", kelas: "XI-B" }
+        ];
+
+        function renderMembers() {
+            const tableBody = document.getElementById('member-table-body');
+            tableBody.innerHTML = members.map(m => `
+                <tr>
+                    <td>${m.id}</td>
+                    <td>${m.nama}</td>
+                    <td>${m.jurusan}</td>
+                    <td>${m.kelas}</td>
+                    <td>
+                        <button onclick="deleteMember('${m.id}')" style="color:red; border:none; background:none; cursor:pointer;"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function addMember() {
+            const name = prompt("Masukkan Nama Anggota:");
+            if(name) {
+                const newId = "NIS00" + (members.length + 1);
+                members.push({ id: newId, nama: name, jurusan: "IPA", kelas: "X" });
+                renderMembers();
+            }
+        }
+
+        function deleteMember(id) {
+            if(confirm('Hapus anggota ini?')) {
+                members = members.filter(m => m.id !== id);
+                renderMembers();
+            }
+        }
+        renderMembers();
+    </script>
+</body>
+</html>

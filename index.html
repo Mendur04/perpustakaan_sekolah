@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpustakaan Sekolah - Beranda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Styling tambahan untuk dashboard */
+        .dashboard-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .widget-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .widget-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .widget-card ul {
+            list-style: none;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .widget-card ul li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eee;
+            font-size: 0.95rem;
+        }
+        .digital-clock {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 1rem;
+            background-color: #2c3e50;
+            color: #2ecc71;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        .widget-loading {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="uploads/perpustakaan.png" alt="Logo">
+                <h1>Perpustakaan Sekolah</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="daftar_buku.html"><i class="fas fa-book"></i> Daftar Buku</a></li>
+                    <li><a href="pinjam_buku.html"><i class="fas fa-hand-holding"></i> Pinjam Buku</a></li>
+                    <li><a href="kembalikan_buku.html"><i class="fas fa-undo"></i> Kembalikan Buku</a></li>
+                    <li><a href="cari_buku.html"><i class="fas fa-search"></i> Cari Buku</a></li>
+                    <li><a href="Admin/login.html"><i class="fas fa-user-shield"></i> Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="home" class="section active">
+            <h2>Selamat Datang di Dashboard Perpustakaan</h2>
+            <div class="digital-clock" id="digital-clock">00:00:00</div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Total Buku</h3>
+                    <p id="total-books">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Tersedia</h3>
+                    <p id="available-books-count">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Dipinjam</h3>
+                    <p id="borrowed-books-count">0</p>
+                </div>
+            </div>
+
+            <div class="dashboard-widgets">
+                <div class="widget-card">
+                    <h3>Buku Tersedia</h3>
+                    <div class="widget-loading" id="available-books-loading"><i class="fas fa-spinner fa-spin"></i></div>
+                    <ul id="available-books-list"></ul>
+                </div>
+
+                <div class="widget-card">
+                    <h3>Sedang Dipinjam</h3>
+                    <div class="widget-loading" id="borrowed-books-loading"><i class="fas fa-spinner fa-spin"></i></div>
+                    <ul id="borrowed-books-list"></ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Urutan Script: main.js harus dipanggil agar fungsi update dashboard berjalan -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Jam Digital
+            function updateClock() {
+                const now = new Date();
+                document.getElementById('digital-clock').textContent = now.toLocaleTimeString('id-ID');
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+        });
+    </script>
+</body>
+</html>

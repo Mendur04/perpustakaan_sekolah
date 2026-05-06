@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Buku - Perpustakaan Sekolah</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="uploads/perpustakaan.png" alt="Logo Perpustakaan">
+                <h1>Perpustakaan Sekolah</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="daftar_buku.html" class="active"><i class="fas fa-book"></i> Daftar Buku</a></li>
+                    <li><a href="pinjam_buku.html"><i class="fas fa-hand-holding"></i> Pinjam Buku</a></li>
+                    <li><a href="kembalikan_buku.html"><i class="fas fa-undo"></i> Kembalikan</a></li>
+                    <li><a href="cari_buku.html"><i class="fas fa-search"></i> Cari Buku</a></li>
+                    <li><a href="Admin/login.php"><i class="fas fa-user-shield"></i> Admin</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="books">
+            <h2>Daftar Buku</h2>
+            
+            <div class="books-controls">
+                <div class="search-filter">
+                    <input type="text" id="book-search" placeholder="Cari buku...">
+                    <select id="category-filter">
+                        <option value="all">Semua Kategori</option>
+                        <option value="pelajaran">Pelajaran</option>
+                        <option value="novel">Novel</option>
+                        <option value="referensi">Referensi</option>
+                        <option value="ilmiah">Ilmiah</option>
+                    </select>
+                </div>
+                
+                <div class="sort-options">
+                    <label for="sort-by">Urutkan:</label>
+                    <select id="sort-by">
+                        <option value="title-asc">Judul (A-Z)</option>
+                        <option value="title-desc">Judul (Z-A)</option>
+                        <option value="author-asc">Pengarang (A-Z)</option>
+                        <option value="author-desc">Pengarang (Z-A)</option>
+                        <option value="rack-asc">Rak (A-Z)</option>
+                        <option value="rack-desc">Rak (Z-A)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="book-list">
+                <!-- Daftar buku akan diisi oleh JavaScript -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Memuat data buku...
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Perpustakaan Sekolah. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/daftar_buku.js"></script>
+</body>
+</html>

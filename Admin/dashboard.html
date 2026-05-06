@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Perpustakaan Sekolah</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Styling Dasar Dashboard[cite: 9] */
+        .admin-table-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            overflow-x: auto;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .admin-table th, .admin-table td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        .admin-table th {
+            background-color: var(--primary-color, #3498db);
+            color: white;
+        }
+        .status-dipinjam { color: #e67e22; font-weight: bold; }
+        .status-dikembalikan { color: #2ecc71; font-weight: bold; }
+
+        /* Styling Kalender[cite: 9] */
+        .calendar-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        @media (min-width: 768px) {
+            .calendar-section { grid-template-columns: 1fr 1fr; }
+        }
+        .calendar-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .calendar-header button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        .calendar-day-header { font-weight: bold; padding: 0.5rem 0; color: #3498db; }
+        .calendar-day {
+            padding: 0.5rem;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            cursor: pointer;
+            min-height: 40px;
+            position: relative;
+        }
+        .calendar-day.has-events {
+            background-color: #3498db;
+            color: white;
+        }
+        .calendar-day.current-day { border: 2px solid #e74c3c; }
+        .calendar-events-detail {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .event-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="../uploads/perpustakaan.png" alt="School library logo emblem displayed in the header of the admin dashboard interface">
+                <h1>Perpustakaan Admin</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Beranda</a></li>
+                    <li><a href="manage_books.html"><i class="fas fa-book"></i> Buku</a></li>
+                    <li><a href="manage_borrows.html"><i class="fas fa-handshake"></i> Peminjaman</a></li>
+                    <li><a href="manage_members.html"><i class="fas fa-users"></i> Anggota</a></li>
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Keluar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="admin-dashboard">
+            <h2>Panel Kendali Admin</h2>
+
+            <!-- Widget Kalender Pemantau[cite: 9] -->
+            <div class="calendar-section">
+                <div class="calendar-container">
+                    <h3>Kalender Aktivitas</h3>
+                    <div class="calendar-header">
+                        <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                        <span id="currentMonthYear"></span>
+                        <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid"></div>
+                </div>
+
+                <div class="calendar-events-detail">
+                    <h3>Detail Tanggal: <span id="event-date">-</span></h3>
+                    <div id="event-list">
+                        <p>Klik tanggal berwarna untuk melihat NIS dan detail buku.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabel Aktivitas Terbaru[cite: 9] -->
+            <h3>Aktivitas Peminjaman Terbaru</h3>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID Pinjam</th>
+                            <th>NIS Anggota</th>
+                            <th>Judul Buku</th>
+                            <th>Tgl Pinjam</th>
+                            <th>Jatuh Tempo</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="peminjaman-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 1. DATA STATIS (Sumber Data)[cite: 9]
+        const peminjamanData = [
+            { id: 101, nis: "NIS001", judul: "Fisika Modern", pinjam: "2026-05-01", kembali: "2026-05-08", status: "Dipinjam" },
+            { id: 102, nis: "NIS005", judul: "Laskar Pelangi", pinjam: "2026-05-03", kembali: "2026-05-10", status: "Dikembalikan" },
+            { id: 103, nis: "NIS021", judul: "Basis Data II", pinjam: "2026-05-06", kembali: "2026-05-13", status: "Dipinjam" }
+        ];
+
+        // 2. LOGIKA TABEL
+        function renderTable() {
+            const tbody = document.getElementById('peminjaman-table-body');
+            tbody.innerHTML = peminjamanData.map(d => `
+                <tr>
+                    <td>${d.id}</td>
+                    <td>${d.nis}</td>
+                    <td>${d.judul}</td>
+                    <td>${d.pinjam}</td>
+                    <td>${d.kembali}</td>
+                    <td><span class="${d.status === 'Dipinjam' ? 'status-dipinjam' : 'status-dikembalikan'}">${d.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // 3. LOGIKA KALENDER PEMANTAU[cite: 9]
+        let date = new Date();
+        let currMonth = date.getMonth();
+        let currYear = date.getFullYear();
+        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            document.getElementById('currentMonthYear').textContent = `${months[currMonth]} ${currYear}`;
+            
+            grid.innerHTML = `
+                <div class="calendar-day-header">Min</div><div class="calendar-day-header">Sen</div>
+                <div class="calendar-day-header">Sel</div><div class="calendar-day-header">Rab</div>
+                <div class="calendar-day-header">Kam</div><div class="calendar-day-header">Jum</div>
+                <div class="calendar-day-header">Sab</div>
+            `;
+
+            const firstDay = new Date(currYear, currMonth, 1).getDay();
+            const lastDate = new Date(currYear, currMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) {
+                grid.innerHTML += `<div class="calendar-day empty"></div>`;
+            }
+
+            for (let i = 1; i <= lastDate; i++) {
+                const dateStr = `${currYear}-${String(currMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const hasAct = peminjamanData.filter(p => p.pinjam === dateStr || p.kembali === dateStr);
+                
+                const dayDiv = document.createElement('div');
+                dayDiv.className = `calendar-day ${hasAct.length > 0 ? 'has-events' : ''}`;
+                if(i === date.getDate() && currMonth === date.getMonth()) dayDiv.classList.add('current-day');
+                dayDiv.innerHTML = i;
+                
+                dayDiv.onclick = () => showDetails(dateStr, hasAct);
+                grid.appendChild(dayDiv);
+            }
+        }
+
+        function showDetails(dateStr, activities) {
+            document.getElementById('event-date').textContent = dateStr;
+            const container = document.getElementById('event-list');
+            if(activities.length === 0) {
+                container.innerHTML = "<p>Tidak ada aktivitas pada tanggal ini.</p>";
+                return;
+            }
+            container.innerHTML = activities.map(a => `
+                <div class="event-item">
+                    <b style="color:#3498db">${a.pinjam === dateStr ? 'PEMINJAMAN' : 'PENGEMBALIAN'}</b><br>
+                    <strong>NIS:</strong> ${a.nis}<br>
+                    <strong>Buku:</strong> ${a.judul}
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('prevMonth').onclick = () => { currMonth--; if(currMonth<0){currMonth=11; currYear--;} renderCalendar(); };
+        document.getElementById('nextMonth').onclick = () => { currMonth++; if(currMonth>11){currMonth=0; currYear++;} renderCalendar(); };
+
+        // Jalankan awal
+        renderTable();
+        renderCalendar();
+    </script>
+</body>
+</html>

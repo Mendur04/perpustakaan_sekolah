@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinjam Buku - Perpustakaan Sekolah</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="uploads/perpustakaan.png" alt="Logo Perpustakaan">
+                <h1>Perpustakaan Sekolah</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="daftar_buku.html"><i class="fas fa-book"></i> Daftar Buku</a></li>
+                    <li><a href="pinjam_buku.html" class="active"><i class="fas fa-hand-holding"></i> Pinjam Buku</a></li>
+                    <li><a href="kembalikan_buku.html"><i class="fas fa-undo"></i> Kembalikan</a></li>
+                    <li><a href="cari_buku.html"><i class="fas fa-search"></i> Cari Buku</a></li>
+                    <li><a href="Admin/login.php"><i class="fas fa-user-shield"></i> Admin</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="borrow">
+            <h2>Pinjam Buku</h2>
+            
+            <div class="borrow-container">
+                <form id="borrow-form">
+                    <div class="form-group">
+                        <label for="student-id">Nomor Induk Siswa:</label>
+                        <input type="text" id="student-id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-name">Nama Siswa:</label>
+                        <input type="text" id="student-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-to-borrow">Pilih Buku:</label>
+                        <select id="book-to-borrow" required>
+                            <option value="">-- Pilih Buku --</option>
+                            <!-- Opsi buku akan diisi oleh JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="borrow-date">Tanggal Pinjam:</label>
+                        <input type="date" id="borrow-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="return-date">Tanggal Kembali:</label>
+                        <input type="date" id="return-date" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Pinjam Buku</button>
+                </form>
+                
+                <div class="book-details" id="borrow-book-details">
+                    <p>Pilih buku untuk melihat detail</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Perpustakaan Sekolah. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/pinjam_buku.js"></script>
+</body>
+</html>
